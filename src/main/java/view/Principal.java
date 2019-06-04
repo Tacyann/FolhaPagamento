@@ -1029,8 +1029,9 @@ public class Principal extends javax.swing.JFrame {
     FolhaDePagamento folha;
     
     private void btn_func_folhapagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_folhapagamentoActionPerformed
-
-        
+       LoadTableFolha();
+       modoFunc = "Navegar";
+       ManipulaInterfaceFunc();
     }//GEN-LAST:event_btn_func_folhapagamentoActionPerformed
 
     /**
