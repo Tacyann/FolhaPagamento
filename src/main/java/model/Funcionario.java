@@ -161,6 +161,20 @@ public class Funcionario {
          
     }
     
+    public void setcalcularInss() {
+      
+         FolhaDePagamento F = new FolhaDePagamento();
+         F.calcularInss();
+         
+    }
+    
+    public void setcalcularIrrf() {
+      
+         FolhaDePagamento F = new FolhaDePagamento();
+         F.calcularIrrf();
+         
+    }
+    
 
       
 }
