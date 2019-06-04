@@ -67,27 +67,26 @@ public class Principal extends javax.swing.JFrame {
     }
     
     
-     public void LoadTableFolh() {
+       public void LoadTableFolha() {
 
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"SalarioLiquido", "INSS", "IRRF"}, 0);
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"SalarioLiquido", "Inss", "IRFF"}, 0);
 
         //Pecorrer a minha lista de Cargos
         for (int i = 0; i < ListaFunc.size(); i++) {
-            /*
             //modelo.addRow(new Object[] {ListaCargo.get(i).getCodigo(), ListaCargo.get(i).getNome()});
-            Object linha[] = new Object[]{ListaFunc.get(i).setCalcularSalarioLiquido();
-                ListaCargo.get(i).getCodigo(),
-                ListaCargo.get(i).getNome()};
-            modelo.addRow(linha);*/
+            Object linha[] = new Object[]{ListaFunc.get(i).setCalcularSalarioLiquido()
+                ListaFunc.get(i).setCalcularInss()
+                ListaFunc.get(i).calcularIrrf()};
+            modelo.addRow(linha);
         }
 
-        tbl_cargos.setModel(modelo);// estrutura da tabela as linhas.
-        tbl_cargos.getColumnModel().getColumn(0).setPreferredWidth(50);
-        tbl_cargos.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tbl_funcionarios.setModel(modelo);// estrutura da tabela as linhas.
+        tbl_funcionarios.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl_funcionarios.getColumnModel().getColumn(1).setPreferredWidth(200);
+        tbl_funcionarios.getColumnModel().getColumn(2).setPreferredWidth(100);
 
-        LoadCBCarg();
-        
     }
+
 
     public void LoadCBCarg() {
 
