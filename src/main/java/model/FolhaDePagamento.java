@@ -3,10 +3,12 @@ package model;
 public class FolhaDePagamento {
 
     private double salariobruto;
-    private double inss;
-    private double irrf;
+    private double percInss;
+    private double percIrrf;
     private double salarioliquido;
     private double plussalario;
+    private double inss;
+    private double irrf;
 
     public double getInss() {
         return inss;
@@ -20,6 +22,22 @@ public class FolhaDePagamento {
         return irrf;
     }
 
+    public void setIrrf(double irrf) {
+        this.irrf = irrf;
+    }
+    
+    public double getPercInss() {
+        return percInss;
+    }
+
+    public void setPercInss(double percInss) {
+        this.percInss = percInss;
+    }
+
+    public double getPercIrrf() {
+        return percIrrf;
+    }
+
     public double getPlussalario() {
         return plussalario;
     }
@@ -28,8 +46,8 @@ public class FolhaDePagamento {
         return salarioliquido;
     }
 
-    public void setIrrf(double irrf) {
-        this.irrf = irrf;
+    public void setPercIrrf(double percIrrf) {
+        this.percIrrf = percIrrf;
     }
 
     public double getSalariobruto() {
@@ -58,14 +76,15 @@ public class FolhaDePagamento {
         }
 
         if (salariobruto <= 1693.72) {
-            inss = 0.08;
+            percInss = 0.08;
 
         } else if (salariobruto >= 1693.73 && salariobruto <= 2822.90) {
-            inss = 0.09;
+            percInss = 0.09;
         } else if (salariobruto >= 2822.91 && salariobruto <= 5645.80) {
-            inss = 0.11;
+            percInss = 0.11;
         }
-        return salariobrutoauxiliar * inss;
+        this.inss = salariobrutoauxiliar * percInss;
+        return this.inss;
     }
 
     private double calcularIrrf() {
@@ -73,24 +92,24 @@ public class FolhaDePagamento {
 
         if (salariobruto >= 1903.99 && salariobruto <= 2826.65) {
             parcela = 142.80;
-            irrf = 0.075;
+            percIrrf = 0.075;
         } else if (salariobruto >= 2826.66 && salariobruto <= 3751.05) {
             parcela = 354.80;
-            irrf = 0.15;
+            percIrrf = 0.15;
         } else if (salariobruto >= 3751.06 && salariobruto <= 4664.68) {
             parcela = 363.13;
-            irrf = 0.225;
+            percIrrf = 0.225;
         } else if (salariobruto >= 4664.69) {
             parcela = 869.36;
-            irrf = 0.275;
+            percIrrf = 0.275;
         }
-
-        return ((salariobruto * irrf) - parcela);
+        this.irrf = ((salariobruto * percIrrf) - parcela);
+        return this.irrf;
     }
 
     public double calcularSalarioLiquido() {
         salarioliquido = salariobruto - calcularInss() - calcularIrrf();
-        return salarioliquido ;
+        return salarioliquido;
     }
 
 }

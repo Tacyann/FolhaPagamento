@@ -43,7 +43,6 @@ public class Principal extends javax.swing.JFrame {
 
         LoadCBCarg();
     }
-    
 
     public void LoadTableFunc() {
 
@@ -65,28 +64,19 @@ public class Principal extends javax.swing.JFrame {
 
         LoadCBCarg();
     }
-    
-    
-       public void LoadTableFolha() {
 
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"SalarioLiquido", "Inss", "IRFF"}, 0);
+    view.FolhaDePagamento folhaDePagamento;
 
-        //Pecorrer a minha lista de Cargos
-        for (int i = 0; i < ListaFunc.size(); i++) {
-            //modelo.addRow(new Object[] {ListaCargo.get(i).getCodigo(), ListaCargo.get(i).getNome()});
-            Object linha[] = new Object[]{ListaFunc.get(i).setCalcularSalarioLiquido()
-                ListaFunc.get(i).setCalcularInss()
-                ListaFunc.get(i).calcularIrrf()};
-            modelo.addRow(linha);
-        }
+    public void LoadTableFolha() {
 
-        tbl_funcionarios.setModel(modelo);// estrutura da tabela as linhas.
-        tbl_funcionarios.getColumnModel().getColumn(0).setPreferredWidth(50);
-        tbl_funcionarios.getColumnModel().getColumn(1).setPreferredWidth(200);
-        tbl_funcionarios.getColumnModel().getColumn(2).setPreferredWidth(100);
+//        int index = tbl_funcionarios.getSelectedRow();
+        model.FolhaDePagamento ff = ListaFunc.get(indexFuncionario).getFolha();
+            
+        folhaDePagamento = new view.FolhaDePagamento();
+        folhaDePagamento.setVisible(true);
+        folhaDePagamento.LoadTableFolha(ff);
 
     }
-
 
     public void LoadCBCarg() {
 
@@ -96,8 +86,6 @@ public class Principal extends javax.swing.JFrame {
             cb_func_cargos.addItem(ListaCargo.get(i).getNome());
         }
     }
-    
-   
 
     /**
      * Creates new form Principal
@@ -865,7 +853,7 @@ public class Principal extends javax.swing.JFrame {
     private void btn_cargo_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cargo_cancelarActionPerformed
         c_cargo_codigo.setText("");
         c_cargo_nome.setText("");
-        
+
         modoCargo = "Navegar";
         ManipulaInterfaceCargo();
     }//GEN-LAST:event_btn_cargo_cancelarActionPerformed
@@ -935,24 +923,45 @@ public class Principal extends javax.swing.JFrame {
             F.setTelefone(telefone);
             F.setData_nasc((c_func_data.getText()));
             F.setCargo(ListaCargo.get(index - 1));
+            FolhaDePagamento ff = new FolhaDePagamento();
+            if (c_func_salbruto.getText() != null && !c_func_salbruto.getText().isEmpty()) {
+                ff.setSalariobruto(Double.parseDouble(c_func_salbruto.getText().replace(".", "").replace(",", ".")));
+            }
+            if (c_func_salplus.getText() != null && !c_func_salplus.getText().isEmpty()) {
+                ff.setPlussalario(Double.parseDouble(c_func_salplus.getText().replace(".", "").replace(",", ".")));
+            }
+            F.setFolha(ff);
 
             ListaFunc.add(F);
             ListaCargo.get(index - 1).AddFunc(F);
         }
+
         LoadTableFunc();
+
         ManipulaInterfaceFunc();
         modoFunc = "Navegar";
-        c_func_cpf.setText("");
-        c_func_nome.setText("");
-        c_func_bairro.setText("");
-        c_func_num.setText("");
-        c_func_salbruto.setText("");
-        c_func_data.setText("");
-        c_func_rg.setText("");
-        c_func_tel.setText("");
-        c_func_end.setText("");
-        c_func_salplus.setText("");
-        
+
+        c_func_cpf.setText(
+                "");
+        c_func_nome.setText(
+                "");
+        c_func_bairro.setText(
+                "");
+        c_func_num.setText(
+                "");
+        c_func_salbruto.setText(
+                "");
+        c_func_data.setText(
+                "");
+        c_func_rg.setText(
+                "");
+        c_func_tel.setText(
+                "");
+        c_func_end.setText(
+                "");
+        c_func_salplus.setText(
+                "");
+
     }//GEN-LAST:event_btn_func_salvarActionPerformed
 
     private void btn_func_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_cancelarActionPerformed
@@ -967,7 +976,7 @@ public class Principal extends javax.swing.JFrame {
         c_func_end.setText("");
         c_func_salbruto.setText("");
         c_func_salplus.setText("");
-        
+
         modoFunc = "Navegar";
         ManipulaInterfaceFunc();
     }//GEN-LAST:event_btn_func_cancelarActionPerformed
@@ -976,16 +985,18 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_c_func_bairroActionPerformed
 
+    Integer indexFuncionario;
     private void tbl_funcionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_funcionariosMouseClicked
-        
+
         int index = tbl_funcionarios.getSelectedRow();
-        if(index >= 0 && index < ListaFunc.size()){
+        indexFuncionario = index;
+        if (index >= 0 && index < ListaFunc.size()) {
             Funcionario F = ListaFunc.get(index);
         }
         LoadTableFunc();
-        modoFunc = "Navegar";
+        modoFunc = "Selecao";
         ManipulaInterfaceFunc();
- 
+
     }//GEN-LAST:event_tbl_funcionariosMouseClicked
 
     private void btn_func_novoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_novoActionPerformed
@@ -1000,13 +1011,25 @@ public class Principal extends javax.swing.JFrame {
         c_func_end.setText("");
         c_func_salbruto.setText("");
         c_func_salplus.setText("");
- 
+
         modoFunc = "Novo";
         ManipulaInterfaceFunc();
     }//GEN-LAST:event_btn_func_novoActionPerformed
 
     private void btn_func_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_editActionPerformed
         modoFunc = "Editar";
+        
+        Funcionario fun = ListaFunc.get(indexFuncionario);
+        c_func_cpf.setText(fun.getCpf());
+        c_func_nome.setText(fun.getNome());
+        c_func_bairro.setText(fun.getEndereco().getBairro());
+        c_func_num.setText(fun.getEndereco().getNumero());
+        c_func_data.setText(fun.getData_nasc());
+        c_func_rg.setText(fun.getRg());
+        c_func_tel.setText(fun.getTelefone().getTelefone());
+        c_func_end.setText(fun.getEndereco().getEndereco());
+        c_func_salbruto.setText(String.valueOf(fun.getFolha().getSalariobruto()));
+        c_func_salplus.setText(String.valueOf(fun.getFolha().getPlussalario()));
         ManipulaInterfaceFunc();
     }//GEN-LAST:event_btn_func_editActionPerformed
 
@@ -1015,8 +1038,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_cb_func_cargosActionPerformed
 
     private void btn_func_excluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_excluirActionPerformed
-          
-         int index = tbl_funcionarios.getSelectedRow();
+
+        int index = tbl_funcionarios.getSelectedRow();
         if (index >= 0 && index < ListaFunc.size()) {
             Funcionario f = ListaFunc.get(index);
             ListaFunc.remove(index);
@@ -1027,11 +1050,11 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_func_excluirActionPerformed
 
     FolhaDePagamento folha;
-    
+
     private void btn_func_folhapagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_func_folhapagamentoActionPerformed
-       LoadTableFolha();
-       modoFunc = "Navegar";
-       ManipulaInterfaceFunc();
+        LoadTableFolha();
+        modoFunc = "Navegar";
+        ManipulaInterfaceFunc();
     }//GEN-LAST:event_btn_func_folhapagamentoActionPerformed
 
     /**
@@ -1048,16 +1071,24 @@ public class Principal extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Principal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

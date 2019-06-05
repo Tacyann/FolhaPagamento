@@ -12,39 +12,36 @@ import java.util.Objects;
  * @author Tacyrose
  */
 public class Funcionario {
-    
+
     //Os funcionários devem ter seu nome, cpf, rg, data de nascimento, endereço, cargo e telefone;
-    
     private Cargo cargo;
     private FolhaDePagamento folha;
     private Endereco endereco;
     private Telefone telefone;
-    
+
     private String nome;
     private String cpf;
     private String rg;
     private String data_nasc;
-    
-    
-     public Funcionario() {
+
+    public Funcionario() {
         this.cargo = new Cargo();
         this.endereco = new Endereco();
         this.telefone = new Telefone();
     }
-     
-     public Funcionario(String cpf) {
+
+    public Funcionario(String cpf) {
         this.cpf = cpf;
         this.cargo = new Cargo();
     }
-     
-     
-     public Funcionario(String cpf, String nome, Cargo cargo){
-       
+
+    public Funcionario(String cpf, String nome, Cargo cargo) {
+
         this.cpf = cpf;
         this.nome = nome;
         this.cargo = new Cargo();
-   
-     }
+
+    }
 
     /**
      * @return the cargo
@@ -145,36 +142,23 @@ public class Funcionario {
     }
 
     public void setEndereco(String endereco, String numero, String bairro, String cep) {
-        if(Objects.isNull(this.endereco)) {
+        if (Objects.isNull(this.endereco)) {
             this.endereco = new Endereco();
         }
         this.endereco.setEndereco(endereco);
         this.endereco.setNumero(numero);
         this.endereco.setBairro(bairro);
-        this.endereco.setCep(Integer.parseInt(cep.replace("-", "")));
+        if (cep != null && !cep.isEmpty() && !cep.replace("-", "").trim().isEmpty()) {
+            this.endereco.setCep(Integer.parseInt(cep.replace("-", "")));
+        }
     }
-    
-     public void setCalcularSalarioLiquido() {
-      
-         FolhaDePagamento F = new FolhaDePagamento();
-         F.calcularSalarioLiquido();
-         
-    }
-    
-    public void setcalcularInss() {
-      
-         FolhaDePagamento F = new FolhaDePagamento();
-         F.calcularInss();
-         
-    }
-    
-    public void setcalcularIrrf() {
-      
-         FolhaDePagamento F = new FolhaDePagamento();
-         F.calcularIrrf();
-         
-    }
-    
 
-      
+    public FolhaDePagamento getFolha() {
+        return folha;
+    }
+
+    public void setFolha(FolhaDePagamento folha) {
+        this.folha = folha;
+    }
+
 }
